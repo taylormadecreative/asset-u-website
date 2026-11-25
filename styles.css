@@ -517,3 +517,21 @@ html:not(.mo) .story .scene[data-i="2"] img{object-position:90% 50%}
   .say-in{font-size:min(2.9vw,5.4vh);max-width:15ch}
   .say-l{font-size:min(5vw,10vh)}
 }
+
+/* leadership: portraits are revealed, then their line draws; on rollover one person comes forward and the rest go quiet */
+@media (prefers-reduced-motion:no-preference){
+  .team.rv .ph{clip-path:inset(100% 0 0 0);transition:clip-path 1s cubic-bezier(.77,0,.175,1) var(--d,0s)}
+  .team.rv li.in .ph{clip-path:inset(0)}
+  .team.rv figcaption>*{opacity:0;transform:translateY(10px);transition:opacity .6s ease calc(var(--d,0s) + .55s),transform .7s var(--ease) calc(var(--d,0s) + .55s)}
+  .team.rv li.in figcaption>*{opacity:1;transform:none}
+  .team li:nth-child(4n+2){--d:.12s}.team li:nth-child(4n+3){--d:.24s}.team li:nth-child(4n){--d:.36s}
+}
+@media (hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference){
+  .team figure{transition:transform .45s var(--ease),opacity .45s ease}
+  .team:has(figure:hover) figure:not(:hover){opacity:.5}
+  .team figure:hover{transform:translateY(-8px)}
+  .team figcaption{transition:transform .45s var(--ease)}
+  .team figure:hover figcaption{transform:translateX(8px)}
+  .team figure:hover .hair{animation:teamline .9s cubic-bezier(.45,0,.2,1);height:3px;margin-bottom:-1px}
+}
+@keyframes teamline{from{transform:scaleX(0)}to{transform:scaleX(1)}}

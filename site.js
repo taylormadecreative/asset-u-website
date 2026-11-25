@@ -12,6 +12,7 @@ menu.addEventListener('click',function(e){if(e.target.closest('a'))setMenu(false
 d.addEventListener('keydown',function(e){if(e.key==='Escape'&&menu.classList.contains('open')){setMenu(false);burger.focus()}});
 matchMedia('(min-width:1181px)').addEventListener('change',function(){setMenu(false)});
 
+if('IntersectionObserver' in window){var tm=$('.team');if(tm)tm.classList.add('rv')}
 /* gold lines draw once */
 if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.15});$$('[data-in]').forEach(function(n){io.observe(n)});
 var links=$$('.links a[href^="#"]:not(.btn)');var sp=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting)links.forEach(function(a){if(a.getAttribute('href')==='#'+e.target.id)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current')})})},{rootMargin:'-45% 0px -50% 0px'});$$('main section[id],.door').forEach(function(s){sp.observe(s)})}
@@ -30,6 +31,11 @@ $$('input,select',f).forEach(function(n){n.addEventListener('blur',function(){if
 f.addEventListener('submit',function(e){e.preventDefault();var bad=$$('input,select',f).filter(function(n){return !check(n)});if(bad.length){bad[0].focus();return}
 var b=$$('input,select,textarea',f).map(function(n){return n.name+': '+n.value}).join('\n');location.href='mailto:info@asset-u.co?subject='+encodeURIComponent('Partner with ASSET-U')+'&body='+encodeURIComponent(b);$('.sent',dlg).hidden=false});
 })();
+/* a light passes over the gold U every 5.5 seconds while it is on screen */
+(function(){var g=document.getElementById('lnshine');if(!g||!('IntersectionObserver' in window)||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+var v=false,t0=0,raf=0;function f(n){raf=0;if(!v)return;var p=Math.min(1,((n-t0)%5500)/3000),e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;g.setAttribute('gradientTransform','translate('+(-190+440*e).toFixed(1)+' '+(-110+255*e).toFixed(1)+')');raf=requestAnimationFrame(f)}
+g.setAttribute('gradientTransform','translate(-190 -110)');
+new IntersectionObserver(function(es){v=es[0].isIntersecting;if(v&&!raf){t0=performance.now();raf=requestAnimationFrame(f)}}).observe(document.querySelector('.connect'))})();
 /* The U in the header logo lets go into dots and comes back when the page is scrolled. At rest it is the plain vector logo. */
 (function(){
 var lg=document.querySelector('.lg');if(!lg||matchMedia('(prefers-reduced-motion:reduce)').matches)return;
