@@ -1,0 +1,67 @@
+/* The gap film.
+   Default is the still version: three pictures with their words, in normal flow. It is what shows with no script,
+   with motion turned off, or on a data-saving connection.
+   film.js adds .film-on when motion is allowed. Then the stage sticks under the nav and the picture follows the scroll. */
+.film{--film-teal:#2BAFB1;padding-block:clamp(88px,11vw,170px) clamp(64px,7vw,110px)}
+.film-cv{display:none}
+.film-sc+.film-sc{margin-top:clamp(72px,9vw,140px)}
+.film-tx{max-width:1360px;margin:0 auto;padding-inline:var(--gutter);display:grid;grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr);column-gap:clamp(36px,6vw,104px);row-gap:24px;align-items:start}
+.film-say{font:400 clamp(24px,3.1vw,54px)/1.2 var(--display);text-wrap:balance;max-width:17em}
+.film-teal{color:var(--film-teal)}
+.film-fig b{display:block;font:400 clamp(60px,10vw,176px)/.9 var(--display);font-variant-numeric:tabular-nums}
+.film-fig p{margin-top:clamp(12px,1.4vw,22px);max-width:26em;font-size:clamp(15px,1.35vw,21px);line-height:1.5;color:rgb(255 255 255/.9)}
+.film-fig small{display:block;margin-top:8px;font-size:clamp(12px,1vw,15px);color:#b3a594}
+.film-big{font:400 clamp(38px,6vw,104px)/1.02 var(--display);text-wrap:balance}
+.film-copy{margin-top:clamp(16px,2vw,30px);max-width:27em;font-size:clamp(15px,1.35vw,21px);line-height:1.55;color:rgb(255 255 255/.9)}
+.film-still{display:block;width:100%;max-width:1360px;height:auto;margin:clamp(4px,1.5vw,20px) auto 0;
+  -webkit-mask-image:linear-gradient(#0000,#000 14%,#000 94%,#0000),linear-gradient(90deg,#0000,#000 5%,#000 95%,#0000);-webkit-mask-composite:source-in;
+  mask-image:linear-gradient(#0000,#000 14%,#000 94%,#0000),linear-gradient(90deg,#0000,#000 5%,#000 95%,#0000);mask-composite:intersect}
+
+/* the key: says what one sphere is, right beside the spheres */
+.film-key{display:flex;flex-wrap:wrap;gap:.5em 2.2em;max-width:1360px;margin:10px auto 0;padding-inline:var(--gutter);font-size:clamp(13px,1.5vw,22px);line-height:1.3}
+.film-key span{display:inline-flex;align-items:center;gap:.6em}
+.film-key i{flex:none;width:1.05em;height:1.05em;border-radius:50%}
+.film-glass{border:1.5px solid var(--bone);background:radial-gradient(circle at 35% 30%,rgb(255 255 255/.4),rgb(255 255 255/0) 55%)}
+.film-tl{background:radial-gradient(circle at 35% 30%,#7fdcdc,#1c9ea0 60%)}
+.film-key em{font-style:normal}
+.film-key b{font-weight:inherit;font-variant-numeric:tabular-nums}
+
+/* ---------- the film ---------- */
+/* the page clips its sections; a clipped section cannot hold a sticky stage, so the film lets go of that (the stage clips itself) */
+.film.film-on{overflow:visible;padding:0;height:calc(var(--film-len)*1vh + 100vh - var(--nav));height:calc(var(--film-len)*1vh + 100svh - var(--nav))}
+.film-on .film-stage{position:sticky;top:var(--nav);height:calc(100vh - var(--nav));height:calc(100svh - var(--nav));overflow:hidden;container-type:size}
+/* --fx --fy --fw --fh: where the picture sits inside the stage. The words and the key are placed from the same numbers. */
+.film-on .film-in{position:absolute;inset:0;--fw:min(100cqw,calc(100cqh*16/9));--fh:calc(var(--fw)*9/16);--fx:calc(50cqw - var(--fw)/2);--fy:calc(100cqh - var(--fh))}
+.film-on .film-cv{display:block;position:absolute;left:var(--fx);top:var(--fy);width:var(--fw);height:var(--fh)}
+.film-cv canvas{display:block;width:100%;height:100%;
+  -webkit-mask-image:linear-gradient(#0000,#000 14%,#000 94%,#0000),linear-gradient(90deg,#0000,#000 5%,#000 95%,#0000);-webkit-mask-composite:source-in;
+  mask-image:linear-gradient(#0000,#000 14%,#000 94%,#0000),linear-gradient(90deg,#0000,#000 5%,#000 95%,#0000);mask-composite:intersect}
+.film-on .film-still{display:none}
+.film-on .film-sc{position:absolute;inset:0;margin:0;opacity:0;pointer-events:none;transition:opacity .4s ease-out}
+.film-on .film-sc.on{opacity:1;pointer-events:auto}
+.film-on .film-tx{padding-top:clamp(24px,6cqh,72px)}
+.film-on .film-say{font-size:clamp(22px,min(3.1cqw,5.6cqh),54px)}
+.film-on .film-fig{opacity:0;transition:opacity .4s ease-out}
+.film-on .film-fig.on{opacity:1}
+.film-on .film-fig b{font-size:clamp(56px,min(10cqw,17cqh),176px)}
+.film-on .film-big{font-size:clamp(36px,min(6cqw,10cqh),104px)}
+.film-on .film-key{position:absolute;margin:0;padding:0;max-width:none;opacity:0;transition:opacity .4s ease-out;font-size:clamp(12px,min(1.5cqw,2.6cqh),22px)}
+.film-on .film-key.on{opacity:1}
+.film-on .film-key span{opacity:0;transition:opacity .4s ease-out}
+.film-on .film-key span.on{opacity:1}
+.film-on .film-k1{left:calc(var(--fx) + var(--fw)*.087);top:calc(var(--fy) + var(--fh)*.916)}
+.film-on .film-k2{left:calc(var(--fx) + var(--fw)*.035);top:calc(var(--fy) + var(--fh)*.7);width:calc(var(--fw)*.19);flex-direction:column}
+
+@media (max-width:760px){
+  .film-tx{grid-template-columns:minmax(0,1fr);row-gap:14px}
+  .film-key{flex-direction:column;gap:.45em;font-size:13px}
+  .film-on .film-in{--fw:116cqw;--fx:-8cqw;--fy:40cqh}
+  .film-on .film-tx{padding-top:22px}
+  .film-on .film-say{font-size:clamp(21px,6.2cqw,30px)}
+  .film-on .film-fig b{font-size:clamp(52px,16cqw,84px)}
+  .film-on .film-big{font-size:clamp(34px,10cqw,54px)}
+  .film-on .film-key{font-size:13px}
+  .film-on .film-k1{left:6cqw;top:calc(var(--fy) + var(--fh)*.97);width:auto}
+  .film-on .film-k2{left:6cqw;top:calc(var(--fy) + var(--fh)*1.01);width:auto}
+}
+@media (prefers-reduced-motion:reduce){.film-on .film-sc,.film-on .film-fig,.film-on .film-key,.film-on .film-key span{transition:none}}

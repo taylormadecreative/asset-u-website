@@ -1,7 +1,7 @@
 /* Every movement here has one job. If it has no job, it does not move.
    1 Doorway   the U is a door: it opens on the women the next sentence is about
    1b Story    each picture opens as its words are read
-   1c Gap      the dots count the number in the sentence
+   1c Gap      now a film (film.js): the spheres count the number in the sentence
    2 Divisions the line runs from the parent to each division, and that division opens
    3 Close     the mark drawn at the start is built again by your own scroll            */
 (function(){
@@ -79,13 +79,6 @@ mm.add({big:'(min-width:1101px) and (prefers-reduced-motion:no-preference)',smal
     door2(sc[1],Math.max(0,Math.min(1,a)),cxs[1]);door2(sc[2],Math.max(0,Math.min(1,b)),cxs[2]);
     var on=b>.4?2:a>.4?1:0;lines.forEach(function(l,i){l.classList.toggle('on',i===on)});
   }
-
-  /* 1c. The gap: the dots count what the sentence says */
-  $$('.gap-row,.steps-wrap').forEach(function(row){
-    var ds=$$('.d.lit,.d.rim',row);ds.forEach(function(x){x.classList.add('off')});
-    ScrollTrigger.create({trigger:$('.dots',row),start:'top 86%',end:ds.length<10?'bottom 84%':small?'bottom 62%':'bottom 58%',onUpdate:count,onRefresh:count});
-    function count(s){var n=Math.round(s.progress*ds.length);ds.forEach(function(x,i){x.classList.toggle('off',i>=n)})}
-  });
 
   /* 2. Divisions: parent, line, division, in that order */
   if(innerWidth>760){
